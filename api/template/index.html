@@ -1,0 +1,212 @@
+<!-- task-3
+1)Create a basic HTML form for user input (e.g., hours studied, attendance, etc.)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Score Predictor</title>
+</head>
+<body>
+    <h2>Predict Your Exam Score</h2>
+    <form action="/predict-form" method="POST">
+        <label for="study_hours">Study Hours:</label>
+        <input type="number" step="0.1" name="study_hours" required><br><br>
+
+        <label for="attendance">Attendance (%):</label>
+        <input type="number" step="1" name="attendance" required><br><br>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction %}
+        <h3>Predicted Score: {{ prediction }}</h3>
+    {% endif %}
+
+    {% if error %}
+        <p style="color:red;">Error: {{ error }}</p>
+    {% endif %}
+</body>
+</html>
+
+3)Display prediction result on the page
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Score Predictor</title>
+</head>
+<body>
+    <h1>Student Score Predictor</h1>
+    <form action="/predict-form" method="POST">
+        <label for="study_hours">Study Hours:</label>
+        <input type="number" name="study_hours" step="0.1" required><br><br>
+        
+        <label for="attendance">Attendance %:</label>
+        <input type="number" name="attendance" step="0.1" required><br><br>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction %}
+        <h2>Predicted Score: {{ prediction }}</h2>
+    {% endif %}
+
+    {% if error %}
+        <h3 style="color:red;">Error: {{ error }}</h3>
+    {% endif %}
+</body>
+</html>
+
+
+
+Optional:
+1)Add Bootstrap or Tailwind CSS for styling -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Score Predictor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+
+<div class="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md">
+    <h2 class="text-2xl font-bold text-center mb-6">Student Score Predictor</h2>
+
+    {% if prediction %}
+        <div class="bg-green-100 text-green-700 p-4 rounded mb-4 text-center">
+            <h4 class="text-xl font-semibold">Predicted Score: {{ prediction }}</h4>
+        </div>
+        <form method="GET" action="/">
+            <button type="submit" class="w-full bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600">
+                Try Again
+            </button>
+        </form>
+    {% else %}
+        {% if error %}
+            <div class="bg-red-100 text-red-700 p-3 rounded mb-4 text-center">{{ error }}</div>
+        {% endif %}
+        <form method="POST" action="/predict-form" class="space-y-4">
+            <div>
+                <label for="study_hours" class="block text-gray-700">Study Hours</label>
+                <input type="number" step="0.1" id="study_hours" name="study_hours" required
+                       class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <div>
+                <label for="attendance" class="block text-gray-700">Attendance (%)</label>
+                <input type="number" step="0.1" id="attendance" name="attendance" required
+                       class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">
+                Predict Score
+            </button>
+        </form>
+    {% endif %}
+</div>
+
+</body>
+</html>
+<!-- 2)Add a reset or "Try Again" button -->
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Score Predictor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+    <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+        <h1 class="text-3xl font-bold mb-6 text-center text-blue-600">Student Score Predictor</h1>
+
+        <!-- Form -->
+        <form action="/predict-form" method="POST" class="space-y-4">
+            <div>
+                <label for="study_hours" class="block mb-1 font-medium text-gray-700">Study Hours:</label>
+                <input type="number" step="0.1" name="study_hours" id="study_hours" required
+                       class="border border-gray-300 rounded-lg w-full p-2 focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label for="attendance" class="block mb-1 font-medium text-gray-700">Attendance (%):</label>
+                <input type="number" step="0.1" name="attendance" id="attendance" required
+                       class="border border-gray-300 rounded-lg w-full p-2 focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div class="flex justify-between">
+                <button type="submit"
+                        class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                    Predict
+                </button>
+                <button type="reset"
+                        class="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500">
+                    Reset
+                </button>
+            </div>
+        </form>
+
+        <!-- Prediction Result -->
+        {% if prediction %}
+            <div class="mt-6 text-center">
+                <p class="text-green-600 text-xl font-semibold">Predicted Score: {{ prediction }}</p>
+                <a href="/" class="text-blue-500 underline mt-2 inline-block">Try Again</a>
+            </div>
+        {% endif %}
+
+        <!-- Error Message -->
+        {% if error %}
+            <div class="mt-6 text-center">
+                <p class="text-red-600 font-semibold">{{ error }}</p>
+                <a href="/" class="text-blue-500 underline mt-2 inline-block">Try Again</a>
+            </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Iris Classifier</title>
+</head>
+<body>
+    <h2>Enter Iris Features</h2>
+    <form method="POST" action="/predict">
+        <input type="text" name="f1" placeholder="Sepal Length"><br>
+        <input type="text" name="f2" placeholder="Sepal Width"><br>
+        <input type="text" name="f3" placeholder="Petal Length"><br>
+        <input type="text" name="f4" placeholder="Petal Width"><br>
+        <input type="submit" value="Predict">
+    </form>
+
+    {% if prediction_text %}
+        <h3>{{ prediction_text }}</h3>
+    {% endif %}
+</body>
+</html> 
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Performance Prediction</title>
+</head>
+<body>
+    <h1>Predict Student Performance</h1>
+    <form action="/predict" method="post">
+        <label>Hours Studied:</label>
+        <input type="number" name="hours_studied" step="0.1" required><br><br>
+
+   `     <label>Attendance (%):</label>
+        <input type="number" name="attendance" step="0.1" required><br><br>
+
+        <label>Previous Score:</label>
+        <input type="number" name="previous_score" step="0.1" required><br><br>
+
+        <button type="submit">Predict</button>
+    </form>
+</body>
+</html>
